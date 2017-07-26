@@ -51,22 +51,20 @@ abstract class AbstractGithubTask extends DefaultTask {
         String[] paths = gitRepository.split('/')
         def repository = paths[paths.size() - 1].split("\\.")[0]
         def username = paths[paths.size() - 2]
-        def isHttp = gitRepository.contains("http")
 
         authenticatedRepo = gitRepository
 
+        def gitUser = credentials != null ? credentials.user : null
+        def gitPass = credentials != null ? credentials.password : null
+
         println("Creating folder: $gitFolder.name")
         gitFolder.mkdir()
-        try {
-            gitClone(gitFolder)
-        } catch (Exception e) {
-            if (isHttp && (credentials == null || credentials.user == null)) {
-                throw new Exception("The url is an http url, but does not have the credentials")
-            }
-            authenticatedRepo = (!isHttp) ? gitRepository
-                    : "https://${credentials.user}${(credentials.password != null) ? ":$credentials.password" : ""}@github.com/$username/${repository}.git"
-            gitClone(gitFolder)
+
+        if (gitUser!= null && gitPass != null) {
+            authenticatedRepo = "https://$gitUser:$gitPass@github.com/$username/${repository}.git"
         }
+
+        gitClone(gitFolder)
 
         return new File(gitFolder, repository)
     }
