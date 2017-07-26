@@ -43,14 +43,14 @@ importDependenciesFromGithub {
     gitRepository "https://github.com/user/repository.git"
     authenticated user, password
 
-    dependencies = ["groupId:artifactId:version"]
+    dependenciesCoordinates = ["groupId:artifactId:version"]
 }
 
-uploadDependenciesToGithub{
+uploadDependenciesByGroupToGithub{
     gitRepository "https://github.com/user/repository.git"
     authenticated user, password
 
-    filterGroups = ["groupId"]
+    groupsId = ["groupId"]
 }
 ```
 
