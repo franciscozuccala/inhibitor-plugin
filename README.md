@@ -4,6 +4,13 @@ Es un plugin para gradle, que permite administrar dependencias en un repositorio
 remoto de Github y utilizarlo como Nexus
 
 ## Como utilizarlo
+Agregar el repositorio de jitpack
+```
+repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+}
+```
 
 Agregar el classpath en el build.gradle del rootProject
 
