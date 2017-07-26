@@ -5,14 +5,14 @@ import org.gradle.api.tasks.Input
 class ImportDependenciesFromGithubTask extends AbstractGithubTask {
 
     @Input
-    List<String> dependencies = []
+    List<String> dependenciesCoordinates = []
 
     @Override
     boolean haveToExecute() {
         def mustGetDependencies= false
         def libsFolder = project.file("libs")
         println("Getting dependencies from $libsFolder.absolutePath")
-        dependencies.each {
+        dependenciesCoordinates.each {
             def dependencySplit = it.split(":")
 
             def listOfFiles = libsFolder.listFiles().findAll{ it.name.contains(dependencySplit[1]) && it.name.contains(dependencySplit[2]) }
@@ -26,7 +26,7 @@ class ImportDependenciesFromGithubTask extends AbstractGithubTask {
 
     @Override
     void exe(File gitFolder) {
-        dependencies.each {
+        dependenciesCoordinates.each {
             println("Obtaining aars for $it")
 
             def dependencySplit = it.split(":")

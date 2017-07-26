@@ -5,22 +5,22 @@ import org.gradle.api.tasks.Input
 
 import java.nio.file.Files
 
-class UploadDependenciesToGithubTask extends AbstractGithubTask {
+class UploadDependenciesByGroupToGithubTask extends AbstractGithubTask {
 
     @Input
-    List<String> filterGroups = []
+    List<String> groupsId = []
 
     @Override
     void exe(File gitFolder) {
-        if (filterGroups == null || filterGroups.isEmpty()) {
-            throw new Exception("No groups of artifacts added for filter dependencies aars, to add filterGroups use " +
-                    "the command 'filterGroups = ['myGroup']'")
+        if (groupsId == null || groupsId.isEmpty()) {
+            throw new Exception("No groups of artifacts added for filter dependencies aars, to add groupsId use " +
+                    "the command 'groupsId = ['myGroup']'")
         }
 
         project.configurations.compile.resolvedConfiguration.resolvedArtifacts.each { ResolvedArtifact artifact ->
             def id = artifact.moduleVersion.id
 
-            if (filterGroups.contains(id.group)) {
+            if (groupsId.contains(id.group)) {
                 def aarFolder = new File(gitFolder, "$id.group/$id.name/$id.version")
                 if (!aarFolder.exists()) {
                     aarFolder.mkdirs()

@@ -13,6 +13,6 @@ class InhibitorPluginTest {
         Project project = ProjectBuilder.builder().build()
         project.pluginManager.apply 'com.github.franciscozuccala.inhibitor'
 
-        assertTrue(project.tasks.uploadDependenciesToGithub instanceof UploadDependenciesToGithubTask)
+        assertTrue(project.tasks.uploadDependenciesByGroupToGithub instanceof UploadDependenciesByGroupToGithubTask)
     }
 }

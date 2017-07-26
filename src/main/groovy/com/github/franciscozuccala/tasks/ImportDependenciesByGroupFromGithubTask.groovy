@@ -8,12 +8,12 @@ import java.nio.file.Files
 class ImportDependenciesByGroupFromGithubTask extends AbstractGithubTask {
 
     @Input
-    List<String> filterGroups = []
+    List<String> groupsId = []
 
     @Override
     void exe(File gitFolder) {
         List<File> aars = []
-        filterGroups.each {
+        groupsId.each {
             def artifactsFolder = new File(gitFolder, it)
             if (artifactsFolder.exists()) {
                 artifactsFolder.eachFileRecurse(FileType.FILES) { aar ->
