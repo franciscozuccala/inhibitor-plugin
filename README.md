@@ -1,4 +1,4 @@
-#Inhibitor
+# Inhibitor
 
 Es un plugin para gradle, que permite administrar dependencias en un repositorio
 remoto de Github y utilizarlo como Nexus
