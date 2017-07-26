@@ -1,5 +1,7 @@
 # Inhibitor
 
+[![](https://jitpack.io/v/franciscozuccala/inhibitor.svg)](https://jitpack.io/#franciscozuccala/inhibitor)
+
 Es un plugin para gradle, que permite administrar dependencias en un repositorio
 remoto de Github y utilizarlo como Nexus
 
