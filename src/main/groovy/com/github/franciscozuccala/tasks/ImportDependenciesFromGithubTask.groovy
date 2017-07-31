@@ -10,7 +10,7 @@ class ImportDependenciesFromGithubTask extends AbstractGithubTask {
     @Override
     boolean haveToExecute() {
         def mustGetDependencies= false
-        def libsFolder = project.file("libs")
+        def libsFolder = project.rootProject.file("libs")
         println("Getting dependencies from $libsFolder.absolutePath")
         dependenciesCoordinates.each {
             def dependencySplit = it.split(":")

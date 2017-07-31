@@ -20,7 +20,7 @@ class ImportDependenciesByGroupFromGithubTask extends AbstractGithubTask {
                     aars << aar
                 }
 
-                File aarsFolder = new File("$project.name/libs/")
+                File aarsFolder = project.rootProject.file("libs")
                 if (!aarsFolder.exists()) {
                     aarsFolder.mkdirs()
                 }

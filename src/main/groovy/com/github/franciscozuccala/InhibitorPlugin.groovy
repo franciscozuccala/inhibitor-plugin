@@ -13,12 +13,12 @@ class InhibitorPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.task('uploadAarToGithub', type: UploadAarToGithubTask).dependsOn "build"
-        project.task('importDependenciesFromGithub', type: ImportDependenciesFromGithubTask)
         project.task('uploadDependenciesByGroupToGithub', type: UploadDependenciesByGroupToGithubTask).dependsOn "build"
+        project.task('importDependenciesFromGithub', type: ImportDependenciesFromGithubTask)
         project.task('importDependenciesByGroupFromGithub', type: ImportDependenciesByGroupFromGithubTask)
 
         project.afterEvaluate {
-            if (project.ext.has('ENABLED_IMPORT_DEPENDENCIES_FROM_GITHUB')?project.ext.ENABLED_IMPORT_DEPENDENCIES_FROM_GITHUB : false){
+            if (project.ext.has('ENABLED_IMPORT_DEPENDENCIES_FROM_GITHUB') ? project.ext.ENABLED_IMPORT_DEPENDENCIES_FROM_GITHUB : false) {
                 project.tasks.importDependenciesFromGithub.execute()
             }
         }

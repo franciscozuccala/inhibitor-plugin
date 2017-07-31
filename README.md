@@ -6,34 +6,30 @@ Es un plugin para gradle, que permite administrar dependencias en un repositorio
 remoto de Github y utilizarlo como Nexus
 
 ## Como utilizarlo
-Agregar el repositorio de jitpack
+Agregar el repositorio y el classpath de jitpack en el buildscript del rootProject
 ```
-repositories {
+buildScript{
     ...
-    maven { url 'https://jitpack.io' }
-}
-```
-
-Agregar el classpath en el build.gradle del rootProject
-
-```
-classpath 'com.github.franciscozuccala:inhibitor:X.Y.Z'
-```
-
-Agregar las siguientes lineas en el build.gradle del proyecto root:
-```
-allprojects {
     repositories {
-        flatDir {
-            dirs 'libs'
-        }
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+    ...
+    dependencies{
+        ...
+        classpath 'com.github.franciscozuccala:inhibitor:X.Y.Z'
     }
 }
 ```
 
-En el modulo agregar la linea:
+Agregar las siguientes lineas en el build.gradle del modulo:
 ```
 apply plugin: 'com.github.franciscozuccala.inhibitor'
+...
+repositories {
+    ...
+    flatDir { dirs "${rootProject.projectDir}/libs" }
+}
 ```
 
 ## Configurar las tasks
@@ -55,7 +51,7 @@ uploadDependenciesByGroupToGithub{
 ```
 
 Para habilitar la ejecucion de la task importDependenciesFromGithub en cada build,
-agregar las siguientes lineas en el build.gradle del modulo:
+agregar la siguiente linea en el build.gradle del modulo:
 ```
 ext.ENABLED_IMPORT_DEPENDENCIES_FROM_GITHUB = true
 ```

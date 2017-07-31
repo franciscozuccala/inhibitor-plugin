@@ -60,7 +60,7 @@ abstract class AbstractGithubTask extends DefaultTask {
         println("Creating folder: $gitFolder.name")
         gitFolder.mkdir()
 
-        if (gitUser!= null && gitPass != null) {
+        if (gitUser != null && gitPass != null) {
             authenticatedRepo = "https://$gitUser:$gitPass@github.com/$username/${repository}.git"
         }
 
