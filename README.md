@@ -7,7 +7,7 @@ remoto de Github y utilizarlo como Nexus
 
 ## Como utilizarlo
 Agregar el repositorio y el classpath de jitpack en el buildscript del rootProject
-```
+```gradle
 buildScript{
     ...
     repositories {
@@ -23,7 +23,7 @@ buildScript{
 ```
 
 Agregar las siguientes lineas en el build.gradle del modulo:
-```
+```gradle
 apply plugin: 'com.github.franciscozuccala.inhibitor'
 ...
 repositories {
@@ -34,7 +34,7 @@ repositories {
 
 ## Configurar las tasks
 Agregar las siguientes lineas en el build.gradle del modulo para configurar las tasks
-```
+```gradle
 importDependenciesFromGithub {
     gitRepository "https://github.com/user/repository.git"
     authenticated user, password
@@ -52,6 +52,6 @@ uploadDependenciesByGroupToGithub{
 
 Para habilitar la ejecucion de la task importDependenciesFromGithub en cada build,
 agregar la siguiente linea en el build.gradle del modulo:
-```
+```gradle
 ext.ENABLED_IMPORT_DEPENDENCIES_FROM_GITHUB = true
 ```
