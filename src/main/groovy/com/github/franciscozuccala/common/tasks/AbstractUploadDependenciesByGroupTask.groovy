@@ -38,15 +38,15 @@ abstract class AbstractUploadDependenciesByGroupTask extends AbstractGithubTask{
 
                     if (!aarFolder.exists()){
                         aarFolder.mkdirs()
-                    }else{
-                        if (!aarFolder.name.contains("SNAPSHOT")){
-                            return
-                        }
                     }
 
                     File newAar = new File(aarFolder, "$artifact.file.name")
 
                     if (newAar.exists()) {
+                        if (newAar.name.contains("SNAPSHOT")){
+                            println("Aar called: $newAar.name already exists in the repository")
+                            return
+                        }
                         newAar.delete()
                     }
 
