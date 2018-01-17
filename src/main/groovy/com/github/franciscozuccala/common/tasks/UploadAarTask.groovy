@@ -1,11 +1,11 @@
-package com.github.franciscozuccala.tasks
+package com.github.franciscozuccala.common.tasks
 
 import groovy.io.FileType
 import org.gradle.api.tasks.Input
 
 import java.nio.file.Files
 
-class UploadAarToGithubTask extends AbstractGithubTask {
+class UploadAarTask extends AbstractGithubTask {
 
     String defaultAarsDir
 

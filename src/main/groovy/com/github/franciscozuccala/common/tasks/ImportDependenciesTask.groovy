@@ -1,8 +1,8 @@
-package com.github.franciscozuccala.tasks
+package com.github.franciscozuccala.common.tasks
 
 import org.gradle.api.tasks.Input
 
-class ImportDependenciesFromGithubTask extends AbstractGithubTask {
+class ImportDependenciesTask extends AbstractGithubTask {
 
     @Input
     List<String> dependenciesCoordinates = []

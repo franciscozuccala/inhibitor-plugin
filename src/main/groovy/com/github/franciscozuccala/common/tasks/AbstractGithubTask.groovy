@@ -1,4 +1,4 @@
-package com.github.franciscozuccala.tasks
+package com.github.franciscozuccala.common.tasks
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
@@ -103,11 +103,17 @@ abstract class AbstractGithubTask extends DefaultTask {
 
     protected void gitClone(File gitFolder) {
         println("Clonning repository: $gitRepository")
+
+        def gitStatusOutput = new ByteArrayOutputStream()
+
         project.exec {
             it.workingDir = gitFolder.absolutePath
 
             it.commandLine('git', 'clone', authenticatedRepo)
+            it.standardOutput = gitStatusOutput
         }
+
+        println("result: ${gitStatusOutput.toString()}")
     }
 
     protected void gitCommit(String message, File gitFolder) {
