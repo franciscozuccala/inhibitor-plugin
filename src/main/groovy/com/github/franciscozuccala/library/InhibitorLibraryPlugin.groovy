@@ -3,7 +3,7 @@ package com.github.franciscozuccala.library
 
 import com.github.franciscozuccala.common.tasks.ImportDependenciesByGroupTask
 import com.github.franciscozuccala.common.tasks.ImportDependenciesTask
-import com.github.franciscozuccala.common.tasks.UploadAarTask
+import com.github.franciscozuccala.library.tasks.UploadAarTask
 import com.github.franciscozuccala.library.tasks.UploadDependenciesByGroupTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project

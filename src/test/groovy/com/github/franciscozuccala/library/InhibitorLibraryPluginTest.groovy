@@ -1,4 +1,4 @@
-package com.github.franciscozuccala.common.tasks
+package com.github.franciscozuccala.library
 
 import com.github.franciscozuccala.library.tasks.UploadDependenciesByGroupTask
 import org.gradle.api.Project
@@ -9,9 +9,9 @@ import static org.gradle.internal.impldep.org.junit.Assert.assertTrue
 
 class InhibitorLibraryPluginTest {
 
-    @Test public void inhibitorApplicationPluginAddsUploadDependenciesByGroupTaskToProject(){
+    @Test public void inhibitorLibraryPluginAddsUploadDependenciesByGroupTaskToProject(){
         Project project = ProjectBuilder.builder().build()
-        project.pluginManager.apply 'com.github.franciscozuccala.inhibitor'
+        project.pluginManager.apply 'inhibitor.library'
 
         assertTrue(project.tasks.uploadDependenciesByGroup instanceof UploadDependenciesByGroupTask)
     }

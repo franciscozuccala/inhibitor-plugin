@@ -1,5 +1,6 @@
-package com.github.franciscozuccala.common.tasks
+package com.github.franciscozuccala.library.tasks
 
+import com.github.franciscozuccala.common.tasks.AbstractGithubTask
 import groovy.io.FileType
 import org.gradle.api.tasks.Input
 
@@ -24,10 +25,11 @@ class UploadAarTask extends AbstractGithubTask {
         println("ArtifactId: $artifactId, GroupId: $groupId, Version: $version")
 
         def aarsFolder = new File(gitFolder, "$groupId/$artifactId/$version")
-        if (aarsFolder.exists()) {
-            aarsFolder.deleteDir()
+        if (!aarsFolder.exists()) {
+            aarsFolder.mkdirs()
+        }else if (!version.contains("SNAPSHOT")){
+            throw new Exception("Aar already exists in the repository")
         }
-        aarsFolder.mkdirs()
 
         println("Created folder ${aarsFolder.name} for aars")
 

@@ -87,7 +87,6 @@ abstract class AbstractGithubTask extends DefaultTask {
         println("Pushing to branch $branch in $gitRepository")
         project.exec {
             it.workingDir = gitFolder.absolutePath
-
             it.commandLine('git', 'push', authenticatedRepo, branch)
         }
     }
@@ -96,24 +95,16 @@ abstract class AbstractGithubTask extends DefaultTask {
         println("Pulling from branch: $branch in $gitRepository")
         project.exec {
             it.workingDir = gitFolder.absolutePath
-
             it.commandLine('git', 'pull', authenticatedRepo, branch)
         }
     }
 
     protected void gitClone(File gitFolder) {
         println("Clonning repository: $gitRepository")
-
-        def gitStatusOutput = new ByteArrayOutputStream()
-
         project.exec {
             it.workingDir = gitFolder.absolutePath
-
             it.commandLine('git', 'clone', authenticatedRepo)
-            it.standardOutput = gitStatusOutput
         }
-
-        println("result: ${gitStatusOutput.toString()}")
     }
 
     protected void gitCommit(String message, File gitFolder) {
@@ -129,7 +120,6 @@ abstract class AbstractGithubTask extends DefaultTask {
         println("Adding all files to commit to repository: $gitRepository")
         project.exec {
             it.workingDir = gitFolder.absolutePath
-
             it.commandLine('git', 'add', '-A')
         }
     }
@@ -140,6 +130,7 @@ abstract class AbstractGithubTask extends DefaultTask {
         project.exec {
             it.workingDir = gitFolder.absolutePath
             it.commandLine('git', 'status', '--porcelain')
+
             it.standardOutput = gitStatusOutput
         }
         return gitStatusOutput.toString()

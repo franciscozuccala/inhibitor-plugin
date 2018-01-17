@@ -22,10 +22,19 @@ buildScript{
 }
 ```
 
-Agregar las siguientes lineas en el build.gradle del modulo:
+Agregar las siguientes lineas en el build.gradle del modulo ...
+
+... en caso de ser una librería:
+```gradle
+apply plugin: 'inhibitor.library'
+```
+
+... si es una aplicación:
 ```gradle
 apply plugin: 'com.github.franciscozuccala.inhibitor'
-...
+```
+... luego agregar el repositorio local:
+```
 repositories {
     ...
     flatDir { dirs "${rootProject.projectDir}/libs" }
@@ -35,14 +44,14 @@ repositories {
 ## Configurar las tasks
 Agregar las siguientes lineas en el build.gradle del modulo para configurar las tasks
 ```gradle
-importDependenciesFromGithub {
+importDependencies {
     gitRepository "https://github.com/user/repository.git"
     authenticated user, password
 
     dependenciesCoordinates = ["groupId:artifactId:version"]
 }
 
-uploadDependenciesByGroupToGithub{
+uploadDependenciesByGroup{
     gitRepository "https://github.com/user/repository.git"
     authenticated user, password
 
