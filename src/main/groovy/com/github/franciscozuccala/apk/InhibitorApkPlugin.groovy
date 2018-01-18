@@ -1,12 +1,12 @@
-package com.github.franciscozuccala.application
+package com.github.franciscozuccala.apk
 
-import com.github.franciscozuccala.application.tasks.UploadDependenciesByGroupTask
+import com.github.franciscozuccala.apk.tasks.UploadDependenciesByGroupTask
 import com.github.franciscozuccala.common.tasks.ImportDependenciesByGroupTask
 import com.github.franciscozuccala.common.tasks.ImportDependenciesTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class InhibitorApplicationPlugin implements Plugin<Project> {
+class InhibitorApkPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {

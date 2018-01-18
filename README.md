@@ -24,15 +24,21 @@ buildScript{
 
 Add the following lines to the module's build.gradle  ...
 
-... in case of being a library:
+... in case of being a Library:
 ```gradle
-apply plugin: 'inhibitor.library'
+apply plugin: 'inhibitor.aar'
 ```
 
-... otherwise:
+... an Application:
 ```gradle
-apply plugin: 'inhibitor.application'
+apply plugin: 'inhibitor.apk'
 ```
+
+... a Plugin:
+```gradle
+apply plugin: 'inhibitor.jar'
+```
+
 Then add the local repository:
 ```
 repositories {
@@ -67,6 +73,15 @@ uploadDependenciesByGroup{
 }
 
 uploadAar{
+    gitRepository "https://github.com/user/repository.git"
+    authenticated user, password
+
+    groupId = "groupId"
+    artifactId = "artifactId"
+    version = "version"
+}
+
+uploadJar{
     gitRepository "https://github.com/user/repository.git"
     authenticated user, password
 

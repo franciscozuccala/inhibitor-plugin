@@ -1,14 +1,14 @@
-package com.github.franciscozuccala.library
+package com.github.franciscozuccala.aar
 
 
 import com.github.franciscozuccala.common.tasks.ImportDependenciesByGroupTask
 import com.github.franciscozuccala.common.tasks.ImportDependenciesTask
-import com.github.franciscozuccala.library.tasks.UploadAarTask
-import com.github.franciscozuccala.library.tasks.UploadDependenciesByGroupTask
+import com.github.franciscozuccala.aar.tasks.UploadAarTask
+import com.github.franciscozuccala.aar.tasks.UploadDependenciesByGroupTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class InhibitorLibraryPlugin implements Plugin<Project> {
+class InhibitorAarPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {

@@ -1,4 +1,4 @@
-package com.github.franciscozuccala.application.tasks
+package com.github.franciscozuccala.apk.tasks
 
 import com.github.franciscozuccala.common.tasks.AbstractUploadDependenciesByGroupTask
 

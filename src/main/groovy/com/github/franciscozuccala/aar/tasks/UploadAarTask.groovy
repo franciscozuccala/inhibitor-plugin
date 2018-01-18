@@ -1,4 +1,4 @@
-package com.github.franciscozuccala.library.tasks
+package com.github.franciscozuccala.aar.tasks
 
 import com.github.franciscozuccala.common.tasks.AbstractGithubTask
 import groovy.io.FileType
@@ -44,7 +44,7 @@ class UploadAarTask extends AbstractGithubTask {
 
     private List<File> obtainAarsFromProject() {
         if (defaultAarsDir == null) {
-            defaultAarsDir = "$project.name/build/outputs/aar"
+            defaultAarsDir = "${project.buildDir.absolutePath}/outputs/aar"
         }
         println("Obtaining aars from $defaultAarsDir")
         List<File> listOfAars = []
