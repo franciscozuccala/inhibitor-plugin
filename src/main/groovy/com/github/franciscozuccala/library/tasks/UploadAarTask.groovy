@@ -64,7 +64,7 @@ class UploadAarTask extends AbstractGithubTask {
             File newAar = new File(folder, "$aar.name")
             println("Adding file named: $aar.name to $folder.name")
             if (newAar.exists()) {
-                if (newAar.name.contains("SNAPSHOT")){
+                if (!newAar.name.contains("SNAPSHOT")){
                     println("Aar called: $newAar.name already exists in the repository")
                     return
                 }
