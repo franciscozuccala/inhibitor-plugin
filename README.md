@@ -42,7 +42,7 @@ repositories {
 ```
 
 ## Configure the tasks
-Add the following lines to module's build.gradle:
+Add the following lines to module's build.gradle for each task to configure:
 
 ```gradle
 importDependencies {
@@ -52,15 +52,33 @@ importDependencies {
     dependenciesCoordinates = ["groupId:artifactId:version"]
 }
 
+importDependenciesByGroup {
+    gitRepository "https://github.com/user/repository.git"
+    authenticated user, password
+
+    groupsId = ["groupId"]
+}
+
 uploadDependenciesByGroup{
     gitRepository "https://github.com/user/repository.git"
     authenticated user, password
 
     groupsId = ["groupId"]
 }
+
+uploadAar{
+    gitRepository "https://github.com/user/repository.git"
+    authenticated user, password
+
+    groupId = "groupId"
+    artifactId = "artifactId"
+    version = "version"
+}
 ```
-To enable importDependencies task to run in every build, add the following line
+To enable importDependencies or importDependenciesByGroup task to run in every build, add the following line
 in module's build.gradle:
 ```gradle
-ext.ENABLED_IMPORT_DEPENDENCIES_FROM_GITHUB = true
+ext.ENABLED_IMPORT_DEPENDENCIES = true
+
+ext.ENABLED_IMPORT_DEPENDENCIES_BY_GROUP = true
 ```

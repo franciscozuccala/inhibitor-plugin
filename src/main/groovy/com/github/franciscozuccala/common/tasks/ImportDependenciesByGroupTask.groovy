@@ -12,8 +12,9 @@ class ImportDependenciesByGroupTask extends AbstractGithubTask {
 
     @Override
     void exe(File gitFolder) {
-        List<File> aars = []
         groupsId.each {
+            List<File> aars = []
+            println("Getting dependencies for groupId: $it")
             def artifactsFolder = new File(gitFolder, it)
             if (artifactsFolder.exists()) {
                 artifactsFolder.eachFileRecurse(FileType.FILES) { aar ->
@@ -25,7 +26,10 @@ class ImportDependenciesByGroupTask extends AbstractGithubTask {
                     aarsFolder.mkdirs()
                 }
 
+                println("Starting copying aars for groupId: $it to libs")
+
                 aars.each {
+                    println("Copying aar: $it.name to libs")
                     File newAar = new File(aarsFolder, it.name)
                     if (newAar.exists()) {
                         newAar.delete()
@@ -33,8 +37,9 @@ class ImportDependenciesByGroupTask extends AbstractGithubTask {
 
                     Files.copy(it.toPath(), newAar.toPath())
                 }
+
+                println("Finish copying aars for groupId: $it")
             }
         }
-
     }
 }

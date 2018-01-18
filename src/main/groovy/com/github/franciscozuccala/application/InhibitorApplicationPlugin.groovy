@@ -15,8 +15,11 @@ class InhibitorApplicationPlugin implements Plugin<Project> {
         project.task('importDependenciesByGroup', type: ImportDependenciesByGroupTask)
 
         project.afterEvaluate {
-            if (project.ext.has('ENABLED_IMPORT_DEPENDENCIES_FROM_GITHUB') ? project.ext.ENABLED_IMPORT_DEPENDENCIES_FROM_GITHUB : false) {
+            if (project.ext.has('ENABLED_IMPORT_DEPENDENCIES') ? project.ext.ENABLED_IMPORT_DEPENDENCIES : false) {
                 project.tasks.importDependencies.execute()
+            }
+            if (project.ext.has('ENABLED_IMPORT_DEPENDENCIES_BY_GROUP') ? project.ext.ENABLED_IMPORT_DEPENDENCIES_BY_GROUP : false){
+                project.tasks.importDependenciesByGroup.execute()
             }
         }
     }

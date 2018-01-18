@@ -9,7 +9,7 @@ class ImportDependenciesTask extends AbstractGithubTask {
 
     @Override
     boolean haveToExecute() {
-        def mustGetDependencies= false
+        def mustGetDependencies = false
         def libsFolder = project.rootProject.file("libs")
         println("Getting dependencies from $libsFolder.absolutePath")
         dependenciesCoordinates.each {
@@ -18,7 +18,7 @@ class ImportDependenciesTask extends AbstractGithubTask {
             def listOfFiles = libsFolder.listFiles().findAll{ it.name.contains(dependencySplit[1]) && it.name.contains(dependencySplit[2]) }
             if (listOfFiles.isEmpty()){
                 mustGetDependencies = true
-                return true
+                return
             }
         }
         return mustGetDependencies
@@ -32,10 +32,8 @@ class ImportDependenciesTask extends AbstractGithubTask {
             def dependencySplit = it.split(":")
             def aarsFolder = new File(gitFolder, "${dependencySplit[0]}/${dependencySplit[1]}/${dependencySplit[2]}")
 
-            println("Obtaining aars from $aarsFolder.name")
-
             if (aarsFolder.exists()) {
-                println(aarsFolder)
+                println("Obtaining aars from $aarsFolder.name")
                 project.copy {
                     it.from aarsFolder.absolutePath
                     it.into "libs"
