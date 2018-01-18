@@ -2,11 +2,11 @@
 
 [![](https://jitpack.io/v/franciscozuccala/inhibitor.svg)](https://jitpack.io/#franciscozuccala/inhibitor)
 
-Es un plugin para gradle, que permite administrar dependencias en un repositorio
-remoto de Github y utilizarlo como Nexus
+Inhibitor is a gradle plugin, that allows your library or application to use a Github repository
+as a Nexus and upload and use dependencies remotely
 
-## Como utilizarlo
-Agregar el repositorio y el classpath de jitpack en el buildscript del rootProject
+## How to use it
+Add the repository and Jitpack classpath to rootProject's buildscript
 ```gradle
 buildScript{
     ...
@@ -22,18 +22,18 @@ buildScript{
 }
 ```
 
-Agregar las siguientes lineas en el build.gradle del modulo ...
+Add the following lines to the module's build.gradle  ...
 
-... en caso de ser una librería:
+... in case of being a library:
 ```gradle
 apply plugin: 'inhibitor.library'
 ```
 
-... si es una aplicación:
+... otherwise:
 ```gradle
-apply plugin: 'com.github.franciscozuccala.inhibitor'
+apply plugin: 'inhibitor.application'
 ```
-... luego agregar el repositorio local:
+Then add the local repository:
 ```
 repositories {
     ...
@@ -41,8 +41,9 @@ repositories {
 }
 ```
 
-## Configurar las tasks
-Agregar las siguientes lineas en el build.gradle del modulo para configurar las tasks
+## Configure the tasks
+Add the following lines to module's build.gradle:
+
 ```gradle
 importDependencies {
     gitRepository "https://github.com/user/repository.git"
@@ -58,9 +59,8 @@ uploadDependenciesByGroup{
     groupsId = ["groupId"]
 }
 ```
-
-Para habilitar la ejecucion de la task importDependenciesFromGithub en cada build,
-agregar la siguiente linea en el build.gradle del modulo:
+To enable importDependencies task to run in every build, add the following line
+in module's build.gradle:
 ```gradle
 ext.ENABLED_IMPORT_DEPENDENCIES_FROM_GITHUB = true
 ```
