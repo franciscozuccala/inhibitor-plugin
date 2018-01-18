@@ -27,15 +27,15 @@ class ImportDependenciesTask extends AbstractGithubTask {
     @Override
     void exe(File gitFolder) {
         dependenciesCoordinates.each {
-            println("Obtaining aars for $it")
+            println("Obtaining dependencies for $it")
 
             def dependencySplit = it.split(":")
-            def aarsFolder = new File(gitFolder, "${dependencySplit[0]}/${dependencySplit[1]}/${dependencySplit[2]}")
+            def dependenciesFolder = new File(gitFolder, "${dependencySplit[0]}/${dependencySplit[1]}/${dependencySplit[2]}")
 
-            if (aarsFolder.exists()) {
-                println("Obtaining aars from $aarsFolder.name")
+            if (dependenciesFolder.exists()) {
+                println("Obtaining dependencies from $dependenciesFolder.name")
                 project.copy {
-                    it.from aarsFolder.absolutePath
+                    it.from dependenciesFolder.absolutePath
                     it.into "libs"
                 }
             }

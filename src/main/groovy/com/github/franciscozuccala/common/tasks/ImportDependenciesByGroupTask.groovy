@@ -13,32 +13,32 @@ class ImportDependenciesByGroupTask extends AbstractGithubTask {
     @Override
     void exe(File gitFolder) {
         groupsId.each {
-            List<File> aars = []
+            List<File> dependencies = []
             println("Getting dependencies for groupId: $it")
             def artifactsFolder = new File(gitFolder, it)
             if (artifactsFolder.exists()) {
-                artifactsFolder.eachFileRecurse(FileType.FILES) { aar ->
-                    aars << aar
+                artifactsFolder.eachFileRecurse(FileType.FILES) { dependency ->
+                    dependencies << dependency
                 }
 
-                File aarsFolder = project.rootProject.file("libs")
-                if (!aarsFolder.exists()) {
-                    aarsFolder.mkdirs()
+                File dependenciesFolder = project.rootProject.file("libs")
+                if (!dependenciesFolder.exists()) {
+                    dependenciesFolder.mkdirs()
                 }
 
-                println("Starting copying aars for groupId: $it to libs")
+                println("Starting copying dependencies for groupId: $it to libs")
 
-                aars.each {
-                    println("Copying aar: $it.name to libs")
-                    File newAar = new File(aarsFolder, it.name)
-                    if (newAar.exists()) {
-                        newAar.delete()
+                dependencies.each {
+                    println("Copying dependency: $it.name to libs")
+                    File newDependency = new File(dependenciesFolder, it.name)
+                    if (newDependency.exists()) {
+                        newDependency.delete()
                     }
 
-                    Files.copy(it.toPath(), newAar.toPath())
+                    Files.copy(it.toPath(), newDependency.toPath())
                 }
 
-                println("Finish copying aars for groupId: $it")
+                println("Finish copying dependencies for groupId: $it")
             }
         }
     }
