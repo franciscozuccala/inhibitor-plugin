@@ -48,7 +48,8 @@ repositories {
 ```
 
 ## Configure the tasks
-Add the following lines to module's build.gradle for each task to configure:
+Add the following lines to module's build.gradle for each task to configure, 
+the password can be replaced by a Github token:
 
 ```gradle
 importDependencies {
