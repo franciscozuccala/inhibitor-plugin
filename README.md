@@ -98,3 +98,5 @@ ext.ENABLED_IMPORT_DEPENDENCIES = true
 
 ext.ENABLED_IMPORT_DEPENDENCIES_BY_GROUP = true
 ```
+In case of need to get this dependencies before applying some plugin, define the task importDependencies/importDependenciesByGroup before aplying the plugin, example: 
+![](docs/images/InhibitorExample.png?raw=true)
