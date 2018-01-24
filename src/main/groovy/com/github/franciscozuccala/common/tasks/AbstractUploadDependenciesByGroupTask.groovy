@@ -65,7 +65,7 @@ abstract class AbstractUploadDependenciesByGroupTask extends AbstractGithubTask{
 
         gitAddAll(gitFolder)
 
-        gitCommit("Upgraded dependencies for $project.name", gitFolder)
+        gitCommit("Uploaded dependencies for $project.rootProject.name", gitFolder)
 
         gitPushToBranch("master", gitFolder)
     }

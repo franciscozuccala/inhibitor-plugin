@@ -37,7 +37,7 @@ class UploadJarTask  extends AbstractGithubTask {
 
         gitAddAll(gitFolder)
 
-        gitCommit("Upgraded jars for $artifactId, version: $version", gitFolder)
+        gitCommit("Uploaded jars for $artifactId, version: $version", gitFolder)
 
         gitPushToBranch("master", gitFolder)
     }
