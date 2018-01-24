@@ -37,9 +37,9 @@ class UploadAarTask extends AbstractGithubTask {
 
         gitAddAll(gitFolder)
 
-        gitCommit("Uploaded aars for $artifactId, version: $version", gitFolder)
-
-        gitPushToBranch("master", gitFolder)
+        if (gitCommit("Uploaded aars for $artifactId, version: $version", gitFolder)){
+            gitPushToBranch("master", gitFolder)
+        }
     }
 
     private List<File> obtainAarsFromProject() {

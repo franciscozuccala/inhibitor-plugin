@@ -107,13 +107,16 @@ abstract class AbstractGithubTask extends DefaultTask {
         }
     }
 
-    protected void gitCommit(String message, File gitFolder) {
+    protected Boolean gitCommit(String message, File gitFolder) {
         println("Commiting changes to repository: $gitRepository, message: $message")
-        project.exec {
+        def output = project.exec {
             it.workingDir = gitFolder.absolutePath
             it.commandLine('git', 'commit', '-m', message)
+
+            it.ignoreExitValue = true
         }
 
+        return 0 == output.properties['exitValue']
     }
 
     protected void gitAddAll(File gitFolder) {

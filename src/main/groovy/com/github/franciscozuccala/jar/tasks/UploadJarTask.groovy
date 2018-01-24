@@ -37,9 +37,9 @@ class UploadJarTask  extends AbstractGithubTask {
 
         gitAddAll(gitFolder)
 
-        gitCommit("Uploaded jars for $artifactId, version: $version", gitFolder)
-
-        gitPushToBranch("master", gitFolder)
+        if (gitCommit("Uploaded jars for $artifactId, version: $version", gitFolder)){
+            gitPushToBranch("master", gitFolder)
+        }
     }
 
     private List<File> obtainJarsFromProject() {
