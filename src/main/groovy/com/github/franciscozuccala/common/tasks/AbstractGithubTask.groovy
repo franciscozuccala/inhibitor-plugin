@@ -71,7 +71,7 @@ abstract class AbstractGithubTask extends DefaultTask {
 
     protected File createDefaultFolder() {
         if (defaultFolderDir == null) {
-            defaultFolderDir = "dependencies-manager"
+            defaultFolderDir = "inhibitor"
         }
 
         def folder = new File(defaultFolderDir)
