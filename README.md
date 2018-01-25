@@ -24,21 +24,25 @@ buildScript{
 
 Add the following lines to the module's build.gradle  ...
 
-... in case of being a Library:
+... in case of being an Android Library:
 ```gradle
-apply plugin: 'inhibitor.aar'
+apply plugin: 'inhibitor.android-library'
 ```
 
-... an Application:
+... an Android Application:
 ```gradle
-apply plugin: 'inhibitor.apk'
+apply plugin: 'inhibitor.android-application'
 ```
 
-... a Plugin:
+... a Gradle Plugin:
 ```gradle
-apply plugin: 'inhibitor.jar'
+apply plugin: 'inhibitor.gradle-plugin'
 ```
 
+... or just need import dependencies in a build.gradle:
+```gradle
+apply plugin: 'inhibitor.root'
+```
 Then add the local repository:
 ```
 repositories {

@@ -1,4 +1,4 @@
-package com.github.franciscozuccala.jar.tasks
+package com.github.franciscozuccala.gradle.plugin.tasks
 
 import com.github.franciscozuccala.common.tasks.AbstractGithubTask
 import groovy.io.FileType

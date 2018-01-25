@@ -1,16 +1,14 @@
-package com.github.franciscozuccala.apk
+package com.github.franciscozuccala.common.root
 
-import com.github.franciscozuccala.apk.tasks.UploadDependenciesByGroupTask
 import com.github.franciscozuccala.common.tasks.ImportDependenciesByGroupTask
 import com.github.franciscozuccala.common.tasks.ImportDependenciesTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class InhibitorApkPlugin implements Plugin<Project> {
+class InhibitorRootPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        project.task('uploadDependenciesByGroup', type: UploadDependenciesByGroupTask).dependsOn "build"
         project.task('importDependencies', type: ImportDependenciesTask)
         project.task('importDependenciesByGroup', type: ImportDependenciesByGroupTask)
 

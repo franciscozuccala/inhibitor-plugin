@@ -1,4 +1,4 @@
-package com.github.franciscozuccala.aar.tasks
+package com.github.franciscozuccala.android.library.tasks
 
 import com.github.franciscozuccala.common.tasks.AbstractGithubTask
 import groovy.io.FileType
