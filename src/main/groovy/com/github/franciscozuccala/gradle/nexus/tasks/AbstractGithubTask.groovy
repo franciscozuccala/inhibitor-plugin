@@ -1,12 +1,19 @@
 package com.github.franciscozuccala.gradle.nexus.tasks
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 abstract class AbstractGithubTask extends DefaultTask {
 
-    String workspaceDir
+    String workspaceDir = "Workspace"
+
+    String inhibitorBranch = "master"
+
+    protected GithubCredentials credentials
+
+    void authenticated(String usr, String pass = null) {
+        credentials = new GithubCredentials(usr, pass)
+    }
 
     @TaskAction
     def setup() {
@@ -21,9 +28,6 @@ abstract class AbstractGithubTask extends DefaultTask {
     boolean haveToExecute() { return true }
 
     protected File createInhibitorFolder() {
-        if (workspaceDir == null) {
-            workspaceDir = "Workspace"
-        }
         def folder = new File(workspaceDir)
         if (!folder.exists()) {
             folder.mkdirs()
@@ -33,7 +37,7 @@ abstract class AbstractGithubTask extends DefaultTask {
 
         def gitFolder = new File(folder, "inhibitor")
         if (gitFolder.exists()){
-            if (gitPullFromBranch('https://github.com/franciscozuccala/inhibitor.git', "master", gitFolder)){
+            if (gitPullFromBranch('https://github.com/franciscozuccala/inhibitor.git', inhibitorBranch, gitFolder)){
                 return gitFolder
             }
             gitFolder.deleteDir()

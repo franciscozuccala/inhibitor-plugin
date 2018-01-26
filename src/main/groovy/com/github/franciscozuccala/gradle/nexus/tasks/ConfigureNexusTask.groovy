@@ -10,18 +10,37 @@ class ConfigureNexusTask extends AbstractGithubTask{
 
     String nexusVersion = '2.14.5-02'
 
-    private GithubCredentials credentials
-
-    void authenticated(String usr, String pass = null) {
-        credentials = new GithubCredentials(usr, pass)
-    }
+    String nexusBranch = "master"
 
     @Override
     void exe(File inhibitorFolder) {
         def sonatypeWorkFolder = new File(inhibitorFolder, "sonatype-work")
-        def nexusStorageFolder = new File(sonatypeWorkFolder, "nexus")
-        def nexusCompiled = new File(inhibitorFolder, "nexus-${nexusVersion}.tar.bz2")
+        def nexusCompiledFolder = new File(inhibitorFolder, "nexus-${nexusVersion}.tar.bz2")
         def nexusFolder = new File(inhibitorFolder, "nexus-${nexusVersion}")
+
+        createNexusStorageFolder(sonatypeWorkFolder)
+
+        if (!nexusFolder.exists()){
+            if (!nexusCompiledFolder.exists()){
+                throw new Exception("The nexus version does not exist in the repository")
+            }
+            decompileFolder(inhibitorFolder, nexusCompiledFolder)
+        }
+    }
+
+    private File decompileFolder(File baseFolder, File compiledFolder){
+        def name = compiledFolder.name
+
+        project.exec {
+            it.workingDir = baseFolder.absolutePath
+            it.commandLine('tar', "-jxvf", "$name")
+        }
+
+        return new File(baseFolder, "nexus-${nexusVersion}")
+    }
+
+    private File createNexusStorageFolder(File sonatypeWorkFolder) {
+        def nexusStorageFolder = new File(sonatypeWorkFolder, "nexus")
 
         String[] paths = nexusRepository.split('/')
         def repository = paths[paths.size() - 1].split("\\.")[0]
@@ -37,24 +56,22 @@ class ConfigureNexusTask extends AbstractGithubTask{
             authenticatedNexusRepository = "https://$gitUser:$gitPass@github.com/$username/${repository}.git"
         }
 
-        if (!nexusStorageFolder.exists()){
-            nexusStorageFolder = createNexusStorageFolder(authenticatedNexusRepository, repository, sonatypeWorkFolder)
-        }
+        if (!nexusStorageFolder.exists()) {
 
-        gitPullFromBranch(authenticatedNexusRepository, "master", nexusStorageFolder)
-    }
+            gitClone(sonatypeWorkFolder, authenticatedNexusRepository)
 
-    protected File createNexusStorageFolder(String authenticatedNexusRepository, String repository, File sonatypeWorkFolder) {
-
-        gitClone(sonatypeWorkFolder, authenticatedNexusRepository)
-
-        if (repository != "nexus"){
-            project.exec {
-                it.workingDir = sonatypeWorkFolder.absolutePath
-                it.commandLine('mv', "${repository}/", "nexus/")
+            if (repository != "nexus") {
+                project.exec {
+                    it.workingDir = sonatypeWorkFolder.absolutePath
+                    it.commandLine('mv', "${repository}/", "nexus")
+                }
             }
+
+            nexusStorageFolder =  new File(sonatypeWorkFolder, "nexus")
         }
 
-        return new File(sonatypeWorkFolder, "nexus")
+        gitPullFromBranch(authenticatedNexusRepository, nexusBranch, nexusStorageFolder)
+
+        return nexusStorageFolder
     }
 }
