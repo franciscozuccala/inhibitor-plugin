@@ -10,9 +10,11 @@ class StopNexusTask extends AbstractGithubTask{
     }
 
     private void startNexus(File nexusFolder){
+        println("Stopping nexus")
         project.exec {
             it.workingDir = nexusFolder.absolutePath
             it.commandLine("./bin/nexus", "stop")
         }
+        println("Nexus stopped")
     }
 }

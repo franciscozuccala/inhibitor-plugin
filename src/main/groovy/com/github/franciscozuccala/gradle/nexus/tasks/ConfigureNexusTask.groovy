@@ -14,6 +14,7 @@ class ConfigureNexusTask extends AbstractGithubTask{
 
     @Override
     void exe(File inhibitorFolder) {
+        println("Executing configureNexus task for $nexusRepository")
         def sonatypeWorkFolder = new File(inhibitorFolder, "sonatype-work")
         def nexusCompiledFolder = new File(inhibitorFolder, "nexus-${nexusVersion}.tar.bz2")
         def nexusFolder = new File(inhibitorFolder, "nexus-${nexusVersion}")
@@ -26,6 +27,7 @@ class ConfigureNexusTask extends AbstractGithubTask{
             }
             decompileFolder(inhibitorFolder, nexusCompiledFolder)
         }
+        println("Done executing")
     }
 
     private File decompileFolder(File baseFolder, File compiledFolder){
@@ -40,23 +42,14 @@ class ConfigureNexusTask extends AbstractGithubTask{
     }
 
     private File createNexusStorageFolder(File sonatypeWorkFolder) {
+        println("Creating nexus folder")
         def nexusStorageFolder = new File(sonatypeWorkFolder, "nexus")
 
-        String[] paths = nexusRepository.split('/')
-        def repository = paths[paths.size() - 1].split("\\.")[0]
-        def username = paths[paths.size() - 2]
-
-        def authenticatedNexusRepository = nexusRepository
-
-        def gitUser = credentials != null ? credentials.user : null
-        def gitPass = credentials != null ? credentials.password : null
-
-
-        if (gitUser != null && gitPass != null) {
-            authenticatedNexusRepository = "https://$gitUser:$gitPass@github.com/$username/${repository}.git"
-        }
+        def authenticatedNexusRepository = generateAuthenticatedRepository(credentials, nexusRepository)
 
         if (!nexusStorageFolder.exists()) {
+            String[] paths = nexusRepository.split('/')
+            def repository = paths[paths.size() - 1].split("\\.")[0]
 
             gitClone(sonatypeWorkFolder, authenticatedNexusRepository)
 
@@ -72,6 +65,7 @@ class ConfigureNexusTask extends AbstractGithubTask{
 
         gitPullFromBranch(authenticatedNexusRepository, nexusBranch, nexusStorageFolder)
 
+        println("Done creating nexus folder")
         return nexusStorageFolder
     }
 }

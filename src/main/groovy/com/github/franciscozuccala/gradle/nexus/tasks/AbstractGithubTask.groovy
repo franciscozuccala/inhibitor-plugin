@@ -5,7 +5,7 @@ import org.gradle.api.tasks.TaskAction
 
 abstract class AbstractGithubTask extends DefaultTask {
 
-    String workspaceDir = "Workspace"
+    String workspaceDir = "InhibitorWS"
 
     String inhibitorBranch = "master"
 
@@ -18,16 +18,16 @@ abstract class AbstractGithubTask extends DefaultTask {
     @TaskAction
     def setup() {
         def inhibitorFolder = createInhibitorFolder()
-        if (haveToExecute()) {
+        if (haveToExecute(inhibitorFolder)) {
             exe(inhibitorFolder)
         }
     }
 
-    abstract void exe(File gitFolder)
+    abstract void exe(File inhibitorFolder)
 
-    boolean haveToExecute() { return true }
+    boolean haveToExecute(File inhibitorFolder) { return true }
 
-    protected File createInhibitorFolder() {
+    private File createInhibitorFolder() {
         def folder = new File(workspaceDir)
         if (!folder.exists()) {
             folder.mkdirs()
@@ -45,6 +45,25 @@ abstract class AbstractGithubTask extends DefaultTask {
         gitClone(folder, 'https://github.com/franciscozuccala/inhibitor.git')
 
         return new File(folder, "inhibitor")
+    }
+
+    /**
+     * This method allows to clone a github repository and return True if it was successful
+     * or False otherwise
+     * @param gitFolder
+     * @param repository
+     * @return Boolean
+     */
+    protected Boolean gitClone(File gitFolder, String repository) {
+        println("Clonning repository: $repository")
+        def output = project.exec {
+            it.workingDir = gitFolder.absolutePath
+            it.commandLine('git', 'clone', repository)
+
+            it.ignoreExitValue = true
+        }
+
+        return 0 == output.properties['exitValue']
     }
 
     protected void gitPushToBranch(String repository, String branch, File gitFolder) {
@@ -67,23 +86,23 @@ abstract class AbstractGithubTask extends DefaultTask {
         return 0 == output.properties['exitValue']
     }
 
-    protected Boolean gitClone(File gitFolder, String repository) {
-        println("Clonning repository: $repository")
-        def output = project.exec {
+    protected String gitStatus(File gitFolder) {
+        def gitStatusOutput = new ByteArrayOutputStream()
+
+        project.exec {
             it.workingDir = gitFolder.absolutePath
-            it.commandLine('git', 'clone', repository)
+            it.commandLine('git', 'status', '--porcelain')
 
-            it.ignoreExitValue = true
+            it.standardOutput = gitStatusOutput
         }
-
-        return 0 == output.properties['exitValue']
+        return gitStatusOutput.toString()
     }
 
-    protected Boolean gitCommit(String message, File gitFolder) {
-        println("Commiting changes to repository, message: $message")
+    protected Boolean gitCheckout(File gitFolder, String branch) {
+        println("Changing to branch $branch")
         def output = project.exec {
             it.workingDir = gitFolder.absolutePath
-            it.commandLine('git', 'commit', '-m', message)
+            it.commandLine('git', 'checkout', branch)
 
             it.ignoreExitValue = true
         }
@@ -99,16 +118,16 @@ abstract class AbstractGithubTask extends DefaultTask {
         }
     }
 
-    protected String gitStatus(File gitFolder) {
-        def gitStatusOutput = new ByteArrayOutputStream()
-
-        project.exec {
+    protected Boolean gitCommit(String message, File gitFolder) {
+        println("Commiting changes to repository, message: $message")
+        def output = project.exec {
             it.workingDir = gitFolder.absolutePath
-            it.commandLine('git', 'status', '--porcelain')
+            it.commandLine('git', 'commit', '-m', message)
 
-            it.standardOutput = gitStatusOutput
+            it.ignoreExitValue = true
         }
-        return gitStatusOutput.toString()
+
+        return 0 == output.properties['exitValue']
     }
 
     class GithubCredentials {
@@ -119,5 +138,23 @@ abstract class AbstractGithubTask extends DefaultTask {
             user = usr
             password = pass
         }
+    }
+
+    protected String generateAuthenticatedRepository(GithubCredentials credentials, String repositoryUrl){
+        String[] paths = repositoryUrl.split('/')
+        def repository = paths[paths.size() - 1].split("\\.")[0]
+        def username = paths[paths.size() - 2]
+
+        def gitUser = credentials != null ? credentials.user : null
+        def gitPass = credentials != null ? credentials.password : null
+
+
+        if (gitUser != null && gitPass != null) {
+            println('Generating Authenticated repository with credentials')
+            return  "https://$gitUser:$gitPass@github.com/$username/${repository}.git"
+        }
+
+        println('Generating Authenticated repository without credentials')
+        return repositoryUrl
     }
 }
