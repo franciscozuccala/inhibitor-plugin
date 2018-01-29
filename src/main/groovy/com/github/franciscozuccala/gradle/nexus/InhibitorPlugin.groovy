@@ -15,5 +15,11 @@ class InhibitorPlugin implements Plugin<Project> {
         project.task('saveNexus', type: SaveNexusTask)
         project.task('startNexus', type: StartNexusTask).dependsOn('configureNexus')
         project.task('stopNexus', type: StopNexusTask).dependsOn('configureNexus')
+
+        project.afterEvaluate {
+            if (project.ext.has('ENABLE_START_NEXUS') ? project.ext.ENABLE_START_NEXUS : false) {
+                project.tasks.startNexus.execute()
+            }
+        }
     }
 }

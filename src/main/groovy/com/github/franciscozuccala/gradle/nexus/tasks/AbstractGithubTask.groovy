@@ -103,10 +103,22 @@ abstract class AbstractGithubTask extends DefaultTask {
     }
 
     protected Boolean gitCheckout(File gitFolder, String branch) {
-        println("Changing to branch $branch")
+        println("Changing to branch $branch from ${gitFolder.toString()}")
         def output = project.exec {
             it.workingDir = gitFolder.absolutePath
             it.commandLine('git', 'checkout', branch)
+
+            it.ignoreExitValue = true
+        }
+
+        return 0 == output.properties['exitValue']
+    }
+
+    protected Boolean gitSubmoduleAdd(File gitFolder, String repository) {
+        println("Adding git submodule")
+        def output = project.exec {
+            it.workingDir = gitFolder.absolutePath
+            it.commandLine('git', 'submodule', 'add', repository)
 
             it.ignoreExitValue = true
         }
@@ -119,6 +131,24 @@ abstract class AbstractGithubTask extends DefaultTask {
         project.exec {
             it.workingDir = gitFolder.absolutePath
             it.commandLine('git', 'add', '-A')
+        }
+    }
+
+    protected void gitAddFiles(File gitFolder, String ... fileNames) {
+        println("Adding files to commit to repository")
+        fileNames.each { name ->
+            project.exec {
+                it.workingDir = gitFolder.absolutePath
+                it.commandLine('git', 'add', "$name")
+            }
+        }
+    }
+
+    protected void gitRmFile(File gitFolder, String pathToDelete) {
+        println("Deleting files in $pathToDelete")
+        project.exec {
+            it.workingDir = gitFolder.absolutePath
+            it.commandLine('git', 'rm', '--cached', "$pathToDelete")
         }
     }
 
