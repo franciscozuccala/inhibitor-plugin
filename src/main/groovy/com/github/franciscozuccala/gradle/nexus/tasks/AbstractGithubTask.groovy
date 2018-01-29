@@ -28,20 +28,24 @@ abstract class AbstractGithubTask extends DefaultTask {
     boolean haveToExecute(File inhibitorFolder) { return true }
 
     private File createInhibitorFolder() {
+        println("Configuring inhibitor folder")
         def folder = new File(workspaceDir)
         if (!folder.exists()) {
+            println("Workspace folder does not exists, cloning inhibitor")
             folder.mkdirs()
             gitClone(folder, 'https://github.com/franciscozuccala/inhibitor.git')
             return new File(folder, "inhibitor")
         }
-
+        println("Workspace dir already exists, using it as default")
         def gitFolder = new File(folder, "inhibitor")
         if (gitFolder.exists()){
+            println("inhibitor folder already exists, getting last changes")
             if (gitPullFromBranch('https://github.com/franciscozuccala/inhibitor.git', inhibitorBranch, gitFolder)){
                 return gitFolder
             }
             gitFolder.deleteDir()
         }
+        println("Something gone wrong when getting last changes, cloning it again")
         gitClone(folder, 'https://github.com/franciscozuccala/inhibitor.git')
 
         return new File(folder, "inhibitor")
