@@ -130,7 +130,6 @@ class ConfigureNexusTask extends AbstractGithubTask{
         String currentLine
 
         while((currentLine = gitConfigFileReader.readLine()) != null) {
-            // trim newline when comparing with lineToRemove
             String trimmedLine = currentLine.trim()
             if(trimmedLine == "gitdir: ../../.git/modules/sonatype-work/$repositoryName"){
                 currentLine = currentLine.replace("$repositoryName","nexus")
@@ -154,7 +153,6 @@ class ConfigureNexusTask extends AbstractGithubTask{
         BufferedWriter writer = new BufferedWriter(new FileWriter(tempModuleConfigFile))
 
         while((currentLine = reader.readLine()) != null) {
-            // trim newline when comparing with lineToRemove
             String trimmedLine = currentLine.trim()
             if(trimmedLine == "worktree = ../../../../sonatype-work/$repositoryName"){
                 currentLine = currentLine.replace("$repositoryName","nexus")
