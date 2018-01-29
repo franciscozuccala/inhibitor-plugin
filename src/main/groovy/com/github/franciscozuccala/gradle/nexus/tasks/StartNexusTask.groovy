@@ -10,12 +10,10 @@ class StartNexusTask extends AbstractGithubTask{
     }
 
     private void startNexus(File nexusFolder){
-        println("Starting nexus")
         project.exec {
             it.workingDir = nexusFolder.absolutePath
             it.commandLine("./bin/nexus", "start")
         }
-        println("Nexus started")
-        println("Remember it is hosted on http://localhost:8081/nexus")
+        println("Done starting nexus, remember it is hosted on http://localhost:8081/nexus")
     }
 }

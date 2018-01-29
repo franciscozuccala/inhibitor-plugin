@@ -16,7 +16,7 @@ class SaveNexusTask extends AbstractGithubTask {
         File nexusFolder = new File(sonatypeWorkFolder, 'nexus')
 
         if (!sonatypeWorkFolder.exists() || !nexusFolder.exists()){
-            throw new Exception("Nexus folder does not exist in path sonatype-work/nexus, " +
+            throw new Exception("Nexus folder does not exist inside sonatype-work/ directory, " +
                     "please configure your nexus first")
         }
 
