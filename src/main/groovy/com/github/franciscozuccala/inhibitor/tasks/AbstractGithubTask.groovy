@@ -148,7 +148,7 @@ abstract class AbstractGithubTask extends DefaultTask {
         println("Deleting files in $pathToDelete")
         project.exec {
             it.workingDir = gitFolder.absolutePath
-            it.commandLine('git', 'rm', '--cached', "$pathToDelete")
+            it.commandLine('git', 'rm','-rf', '--cached', "$pathToDelete")
         }
     }
 

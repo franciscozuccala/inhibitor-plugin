@@ -46,21 +46,14 @@ class ConfigureNexusTask extends AbstractGithubTask{
         def nexusStorageFolder = new File(sonatypeWorkFolder, "nexus")
 
         def authenticatedNexusRepository = generateAuthenticatedRepository(credentials, nexusRepository)
+        def gitModuleFile = new File(nexusStorageFolder, '.git')
 
-        if (!nexusStorageFolder.exists()) {
-            String[] paths = nexusRepository.split('/')
-            def repository = paths[paths.size() - 1].split("\\.")[0]
-
-            if (!gitSubmoduleAdd(sonatypeWorkFolder, authenticatedNexusRepository)){
-                deleteSubmodule(sonatypeWorkFolder.parentFile, repository)
-                gitSubmoduleAdd(sonatypeWorkFolder, authenticatedNexusRepository)
+        if (!gitModuleFile.exists()){
+            if (nexusStorageFolder.exists()){
+                nexusStorageFolder.deleteDir()
             }
 
-            if (repository != "nexus") {
-                renameFolderToNexus(sonatypeWorkFolder.parentFile, repository)
-            }
-
-            nexusStorageFolder =  new File(sonatypeWorkFolder, "nexus")
+            nexusStorageFolder = cleanNexusStorageFolderInstall(sonatypeWorkFolder, authenticatedNexusRepository)
         }
 
         gitCheckout(nexusStorageFolder, nexusBranch)
@@ -69,6 +62,22 @@ class ConfigureNexusTask extends AbstractGithubTask{
 
         println("Done creating nexus folder")
         return nexusStorageFolder
+    }
+
+    private File cleanNexusStorageFolderInstall(File sonatypeWorkFolder, String authenticatedNexusRepository) {
+        String[] paths = nexusRepository.split('/')
+        def repository = paths[paths.size() - 1].split("\\.")[0]
+
+        if (!gitSubmoduleAdd(sonatypeWorkFolder, authenticatedNexusRepository)) {
+            deleteSubmodule(sonatypeWorkFolder.parentFile, repository)
+            gitSubmoduleAdd(sonatypeWorkFolder, authenticatedNexusRepository)
+        }
+
+        if (repository != "nexus") {
+            renameFolderToNexus(sonatypeWorkFolder.parentFile, repository)
+        }
+
+        return new File(sonatypeWorkFolder, "nexus")
     }
 
     private void deleteSubmodule(File inhibitorFile, String repositoryName){
@@ -115,6 +124,11 @@ class ConfigureNexusTask extends AbstractGithubTask{
 
     private void renameFolderToNexus(File inhibitorFolder, String repositoryName){
         def sonatypeWorkFolder = new File(inhibitorFolder, 'sonatype-work')
+        def nexusStorageFolder = new File(sonatypeWorkFolder, "nexus")
+
+        if (nexusStorageFolder.exists()){
+            nexusStorageFolder.deleteDir()
+        }
 
         project.exec {
             it.workingDir = sonatypeWorkFolder.absolutePath
