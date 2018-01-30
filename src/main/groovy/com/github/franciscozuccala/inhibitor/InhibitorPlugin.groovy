@@ -18,6 +18,7 @@ class InhibitorPlugin implements Plugin<Project> {
 
         project.afterEvaluate {
             if (project.ext.has('ENABLE_START_NEXUS') ? project.ext.ENABLE_START_NEXUS : false) {
+                project.tasks.configureNexus.execute()
                 project.tasks.startNexus.execute()
             }
         }

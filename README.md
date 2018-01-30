@@ -60,7 +60,6 @@ In case of new inhibitor version use:
 ```gradle
 repositories {
     ...
-    flatDir { dirs "${rootProject.projectDir}/libs" }
     maven {url 'http://localhost:8081/nexus/content/repositories/snapshots/'}
 }
 ```
