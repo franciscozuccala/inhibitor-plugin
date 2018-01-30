@@ -1,6 +1,6 @@
 # Inhibitor-plugin
 
-[![](https://jitpack.io/v/franciscozuccala/inhibitor.svg)](https://jitpack.io/#franciscozuccala/inhibitor)
+[![](https://jitpack.io/v/franciscozuccala/inhibitor-plugin.svg)](https://jitpack.io/#franciscozuccala/inhibitor-plugin)
 
 Inhibitor-plugin is a gradle plugin, that allows your library or application to use a Github repository
 as a Nexus and upload and use dependencies remotely
