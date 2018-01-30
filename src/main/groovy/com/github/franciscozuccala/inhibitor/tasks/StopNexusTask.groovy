@@ -1,6 +1,6 @@
-package com.github.franciscozuccala.gradle.nexus.tasks
+package com.github.franciscozuccala.inhibitor.tasks
 
-class StartNexusTask extends AbstractGithubTask{
+class StopNexusTask extends AbstractGithubTask{
 
     String nexusVersion = '2.14.5-02'
 
@@ -12,8 +12,7 @@ class StartNexusTask extends AbstractGithubTask{
     private void startNexus(File nexusFolder){
         project.exec {
             it.workingDir = nexusFolder.absolutePath
-            it.commandLine("./bin/nexus", "start")
+            it.commandLine("./bin/nexus", "stop")
         }
-        println("Done starting nexus, remember it is hosted on http://localhost:8081/nexus")
     }
 }

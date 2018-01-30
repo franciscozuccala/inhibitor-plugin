@@ -1,8 +1,8 @@
-# Inhibitor
+# Inhibitor-plugin
 
 [![](https://jitpack.io/v/franciscozuccala/inhibitor.svg)](https://jitpack.io/#franciscozuccala/inhibitor)
 
-Inhibitor is a gradle plugin, that allows your library or application to use a Github repository
+Inhibitor-plugin is a gradle plugin, that allows your library or application to use a Github repository
 as a Nexus and upload and use dependencies remotely
 
 ## How to use it
@@ -17,7 +17,7 @@ buildScript{
     ...
     dependencies{
         ...
-        classpath 'com.github.franciscozuccala:inhibitor:X.Y.Z'
+        classpath 'com.github.franciscozuccala:inhibitor-plugin:X.Y.Z'
     }
 }
 ```
@@ -43,11 +43,25 @@ apply plugin: 'inhibitor.gradle-plugin'
 ```gradle
 apply plugin: 'inhibitor.root'
 ```
-Then add the local repository:
+
+For the new version of inhibitor-plugin use:
+```gradle
+apply plugin: 'inhibitor'
 ```
+
+Then add the local repository:
+```gradle
 repositories {
     ...
     flatDir { dirs "${rootProject.projectDir}/libs" }
+}
+```
+In case of new inhibitor version use:
+```gradle
+repositories {
+    ...
+    flatDir { dirs "${rootProject.projectDir}/libs" }
+    maven {url 'http://localhost:8081/nexus/content/repositories/snapshots/'}
 }
 ```
 
@@ -95,12 +109,33 @@ uploadJar{
     version = "version"
 }
 ```
+
+In case of new version:
+```gradle
+
+configureNexus{
+    nexusRepository = "https://github.com/user/repository-as-nexus.git"
+    [authenticated "usser", "passwordOrKey"] // In case of beeing a private repository or need write access
+    [nexusBranch = "master"] //By Default is master
+}
+
+saveNexus{
+    nexusRepository = "https://github.com/user/repository-as-nexus.git"
+    [authenticated "usser", "passwordOrKey"] // In case of beeing a private repository or need write access
+    [nexusBranch = "master"] //By Default is master
+}
+
+```
 To enable importDependencies or importDependenciesByGroup task to run in every build, add the following line
 in module's build.gradle:
 ```gradle
 ext.ENABLED_IMPORT_DEPENDENCIES = true
 
 ext.ENABLED_IMPORT_DEPENDENCIES_BY_GROUP = true
+```
+In new version:
+```gradle
+ext.ENABLE_START_NEXUS = true
 ```
 In case of need to get this dependencies before applying some plugin, define the task importDependencies/importDependenciesByGroup before aplying the plugin, example: 
 ![](docs/images/InhibitorExample01.png?raw=true)

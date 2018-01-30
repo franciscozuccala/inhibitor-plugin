@@ -1,9 +1,9 @@
-package com.github.franciscozuccala.gradle.nexus
+package com.github.franciscozuccala.inhibitor
 
-import com.github.franciscozuccala.gradle.nexus.tasks.ConfigureNexusTask
-import com.github.franciscozuccala.gradle.nexus.tasks.SaveNexusTask
-import com.github.franciscozuccala.gradle.nexus.tasks.StartNexusTask
-import com.github.franciscozuccala.gradle.nexus.tasks.StopNexusTask
+import com.github.franciscozuccala.inhibitor.tasks.ConfigureNexusTask
+import com.github.franciscozuccala.inhibitor.tasks.SaveNexusTask
+import com.github.franciscozuccala.inhibitor.tasks.StartNexusTask
+import com.github.franciscozuccala.inhibitor.tasks.StopNexusTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

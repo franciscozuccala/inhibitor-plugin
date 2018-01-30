@@ -1,4 +1,4 @@
-package com.github.franciscozuccala.gradle.nexus.tasks
+package com.github.franciscozuccala.inhibitor.tasks
 
 import org.gradle.api.tasks.Input
 
