@@ -136,5 +136,10 @@ In new version:
 ```gradle
 ext.ENABLE_START_NEXUS = true
 ```
-In case of need to get this dependencies before applying some plugin, define the task importDependencies/importDependenciesByGroup before aplying the plugin, example: 
-![](docs/images/InhibitorExample01.png?raw=true)
+In case of need to get dependencies before executing build.gradle:
+- Create in the rootFolder a subfolder called buildSrc/
+- Inside define a build.gradle
+![](docs/images/buildSrc-example.png?raw=true)
+- Configure as you want it!, example:
+![](docs/images/build.gradle-example.png?raw=true)
+
