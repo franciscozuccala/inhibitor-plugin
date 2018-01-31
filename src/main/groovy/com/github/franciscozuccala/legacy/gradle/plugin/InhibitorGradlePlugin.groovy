@@ -1,7 +1,7 @@
-package com.github.franciscozuccala.gradle.plugin
+package com.github.franciscozuccala.legacy.gradle.plugin
 
-import com.github.franciscozuccala.common.root.InhibitorRootPlugin
-import com.github.franciscozuccala.gradle.plugin.tasks.UploadJarTask
+import com.github.franciscozuccala.legacy.common.root.InhibitorRootPlugin
+import com.github.franciscozuccala.legacy.gradle.plugin.tasks.UploadJarTask
 import org.gradle.api.Project
 
 class InhibitorGradlePlugin extends InhibitorRootPlugin{

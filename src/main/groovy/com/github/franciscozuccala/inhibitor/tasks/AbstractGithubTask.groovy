@@ -5,6 +5,8 @@ import org.gradle.api.tasks.TaskAction
 
 abstract class AbstractGithubTask extends DefaultTask {
 
+    private static final String INHIBITOR_REPOSITORY = 'https://github.com/franciscozuccala/inhibitor.git'
+
     String workspaceDir = "InhibitorWS"
 
     String inhibitorBranch = "master"
@@ -17,38 +19,50 @@ abstract class AbstractGithubTask extends DefaultTask {
 
     @TaskAction
     def setup() {
-        def inhibitorFolder = createInhibitorFolder()
+
+        def rootDir = (project.rootDir.path.contains('buildSrc'))? project.rootDir.parentFile : project.rootDir
+
+        def inhibitorWorkspaceFolder = new File(rootDir, workspaceDir)
+        if (!inhibitorWorkspaceFolder.exists()){
+            inhibitorWorkspaceFolder.mkdirs()
+        }
+        def inhibitorFolder = createInhibitorFolder(inhibitorWorkspaceFolder)
+
         if (haveToExecute(inhibitorFolder)) {
             exe(inhibitorFolder)
         }
+
     }
 
     abstract void exe(File inhibitorFolder)
 
-    boolean haveToExecute(File inhibitorFolder) { return true }
+    protected boolean haveToCloneInhibitor(){ return true }
 
-    private File createInhibitorFolder() {
+    protected boolean haveToExecute(File inhibitorFolder) { return true }
+
+    private File createInhibitorFolder(File workspaceFolder) {
         println("Configuring inhibitor folder")
-        def folder = new File(workspaceDir)
-        if (!folder.exists()) {
-            println("Workspace folder does not exists, cloning inhibitor")
-            folder.mkdirs()
-            gitClone(folder, 'https://github.com/franciscozuccala/inhibitor.git')
-            return new File(folder, "inhibitor")
-        }
-        println("Workspace dir already exists, using it as default")
-        def gitFolder = new File(folder, "inhibitor")
-        if (gitFolder.exists()){
-            println("inhibitor folder already exists, getting last changes")
-            if (gitPullFromBranch('https://github.com/franciscozuccala/inhibitor.git', inhibitorBranch, gitFolder)){
-                return gitFolder
+        def inhibitorGitFolder = new File(workspaceFolder, "inhibitor")
+        if (!inhibitorGitFolder.exists()){
+            if (haveToCloneInhibitor()){
+                gitClone(workspaceFolder, INHIBITOR_REPOSITORY)
+                gitCheckout(inhibitorGitFolder, inhibitorBranch)
+            }else{
+                inhibitorGitFolder.mkdirs()
             }
-            gitFolder.deleteDir()
+        }else{
+            if (isGitRepository(inhibitorGitFolder) && !(gitCurrentBranch(inhibitorGitFolder) == inhibitorBranch)){
+                gitCheckout(inhibitorGitFolder, inhibitorBranch)
+                gitPullFromBranch(inhibitorGitFolder, INHIBITOR_REPOSITORY, inhibitorBranch)
+            }
         }
-        println("Something gone wrong when getting last changes, cloning it again")
-        gitClone(folder, 'https://github.com/franciscozuccala/inhibitor.git')
 
-        return new File(folder, "inhibitor")
+        return new File(workspaceFolder, "inhibitor")
+    }
+
+    protected Boolean isGitRepository(File possibleGitFolder){
+        def gitFolder = new File(possibleGitFolder, '.git')
+        return gitFolder.exists()
     }
 
     /**
@@ -70,7 +84,7 @@ abstract class AbstractGithubTask extends DefaultTask {
         return 0 == output.properties['exitValue']
     }
 
-    protected void gitPushToBranch(String repository, String branch, File gitFolder) {
+    protected void gitPushToBranch(File gitFolder, String repository, String branch) {
         println("Pushing changes")
         project.exec {
             it.workingDir = gitFolder.absolutePath
@@ -78,7 +92,7 @@ abstract class AbstractGithubTask extends DefaultTask {
         }
     }
 
-    protected Boolean gitPullFromBranch(String repository, String branch, File gitFolder) {
+    protected Boolean gitPullFromBranch(File gitFolder, String repository, String branch) {
         println("Pulling changes")
         def output = project.exec {
             it.workingDir = gitFolder.absolutePath
@@ -96,6 +110,18 @@ abstract class AbstractGithubTask extends DefaultTask {
         project.exec {
             it.workingDir = gitFolder.absolutePath
             it.commandLine('git', 'status', '--porcelain')
+
+            it.standardOutput = gitStatusOutput
+        }
+        return gitStatusOutput.toString()
+    }
+
+    protected String gitCurrentBranch(File gitFolder) {
+        def gitStatusOutput = new ByteArrayOutputStream()
+
+        project.exec {
+            it.workingDir = gitFolder.absolutePath
+            it.commandLine('git', 'branch', '|', 'grep','\\*')
 
             it.standardOutput = gitStatusOutput
         }
@@ -152,7 +178,7 @@ abstract class AbstractGithubTask extends DefaultTask {
         }
     }
 
-    protected Boolean gitCommit(String message, File gitFolder) {
+    protected Boolean gitCommit(File gitFolder, String message) {
         println("Commiting changes to repository, message: $message")
         def output = project.exec {
             it.workingDir = gitFolder.absolutePath

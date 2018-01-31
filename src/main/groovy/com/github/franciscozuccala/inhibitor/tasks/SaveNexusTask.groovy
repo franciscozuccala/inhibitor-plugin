@@ -26,8 +26,8 @@ class SaveNexusTask extends AbstractGithubTask {
 
         gitAddAll(nexusFolder)
 
-        if (gitCommit('Saving changes for nexus', nexusFolder)){
-            gitPushToBranch(generateAuthenticatedRepository(credentials, nexusRepository), nexusBranch, nexusFolder)
+        if (gitCommit(nexusFolder, 'Saving changes for nexus')){
+            gitPushToBranch(nexusFolder, generateAuthenticatedRepository(credentials, nexusRepository), nexusBranch)
         }
         println("Done executing saveNexus")
     }

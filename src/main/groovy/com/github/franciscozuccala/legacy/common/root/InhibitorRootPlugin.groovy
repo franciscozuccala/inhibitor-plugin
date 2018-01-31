@@ -1,7 +1,7 @@
-package com.github.franciscozuccala.common.root
+package com.github.franciscozuccala.legacy.common.root
 
-import com.github.franciscozuccala.common.tasks.ImportDependenciesByGroupTask
-import com.github.franciscozuccala.common.tasks.ImportDependenciesTask
+import com.github.franciscozuccala.legacy.common.tasks.ImportDependenciesByGroupTask
+import com.github.franciscozuccala.legacy.common.tasks.ImportDependenciesTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

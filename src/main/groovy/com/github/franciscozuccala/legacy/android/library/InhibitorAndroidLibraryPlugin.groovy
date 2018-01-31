@@ -1,8 +1,8 @@
-package com.github.franciscozuccala.android.library
+package com.github.franciscozuccala.legacy.android.library
 
-import com.github.franciscozuccala.common.root.InhibitorRootPlugin
-import com.github.franciscozuccala.android.library.tasks.UploadAarTask
-import com.github.franciscozuccala.android.library.tasks.UploadDependenciesByGroupTask
+import com.github.franciscozuccala.legacy.common.root.InhibitorRootPlugin
+import com.github.franciscozuccala.legacy.android.library.tasks.UploadAarTask
+import com.github.franciscozuccala.legacy.android.library.tasks.UploadDependenciesByGroupTask
 import org.gradle.api.Project
 
 class InhibitorAndroidLibraryPlugin extends InhibitorRootPlugin {

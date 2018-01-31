@@ -1,4 +1,4 @@
-package com.github.franciscozuccala.common.tasks
+package com.github.franciscozuccala.legacy.common.tasks
 
 import org.gradle.api.tasks.Input
 

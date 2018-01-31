@@ -1,6 +1,6 @@
-package com.github.franciscozuccala.android.library.tasks
+package com.github.franciscozuccala.legacy.android.library.tasks
 
-import com.github.franciscozuccala.common.tasks.AbstractGithubTask
+import com.github.franciscozuccala.legacy.common.tasks.AbstractGithubTask
 import groovy.io.FileType
 import org.gradle.api.tasks.Input
 

@@ -1,6 +1,6 @@
-package com.github.franciscozuccala.android.library.tasks
+package com.github.franciscozuccala.legacy.android.library.tasks
 
-import com.github.franciscozuccala.common.tasks.AbstractUploadDependenciesByGroupTask
+import com.github.franciscozuccala.legacy.common.tasks.AbstractUploadDependenciesByGroupTask
 
 class UploadDependenciesByGroupTask extends AbstractUploadDependenciesByGroupTask {
 

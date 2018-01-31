@@ -1,6 +1,6 @@
-package com.github.franciscozuccala.gradle.plugin.tasks
+package com.github.franciscozuccala.legacy.gradle.plugin.tasks
 
-import com.github.franciscozuccala.common.tasks.AbstractGithubTask
+import com.github.franciscozuccala.legacy.common.tasks.AbstractGithubTask
 import groovy.io.FileType
 import org.gradle.api.tasks.Input
 

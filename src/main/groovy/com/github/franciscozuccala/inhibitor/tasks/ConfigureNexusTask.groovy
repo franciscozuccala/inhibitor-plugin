@@ -46,9 +46,8 @@ class ConfigureNexusTask extends AbstractGithubTask{
         def nexusStorageFolder = new File(sonatypeWorkFolder, "nexus")
 
         def authenticatedNexusRepository = generateAuthenticatedRepository(credentials, nexusRepository)
-        def gitModuleFile = new File(nexusStorageFolder, '.git')
 
-        if (!gitModuleFile.exists()){
+        if (!isGitRepository(nexusStorageFolder)){
             if (nexusStorageFolder.exists()){
                 nexusStorageFolder.deleteDir()
             }
@@ -58,7 +57,7 @@ class ConfigureNexusTask extends AbstractGithubTask{
 
         gitCheckout(nexusStorageFolder, nexusBranch)
 
-        gitPullFromBranch(authenticatedNexusRepository, nexusBranch, nexusStorageFolder)
+        gitPullFromBranch(nexusStorageFolder, authenticatedNexusRepository, nexusBranch)
 
         println("Done creating nexus folder")
         return nexusStorageFolder
