@@ -3,7 +3,7 @@ package com.github.franciscozuccala.inhibitor.tasks
 import org.gradle.api.tasks.Input
 
 
-class ConfigureDownloadOnlyAndroidTask extends AbstractGithubTask{
+class ConfigureLocalMavenRepositoryTask extends AbstractGithubTask{
 
     @Input
     String nexusRepository
@@ -17,7 +17,7 @@ class ConfigureDownloadOnlyAndroidTask extends AbstractGithubTask{
 
     @Override
     void exe(File inhibitorFolder) {
-        println("Executing configureDownloadOnlyAndroid task for $nexusRepository")
+        println("Executing ConfigureLocalMavenRepository task for $nexusRepository")
         def sonatypeWorkFolder = new File(inhibitorFolder, "sonatype-work")
         if (!sonatypeWorkFolder.exists()){
             sonatypeWorkFolder.mkdirs()

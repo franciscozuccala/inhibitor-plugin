@@ -1,6 +1,6 @@
 package com.github.franciscozuccala.inhibitor
 
-import com.github.franciscozuccala.inhibitor.tasks.ConfigureDownloadOnlyAndroidTask
+import com.github.franciscozuccala.inhibitor.tasks.ConfigureLocalMavenRepositoryTask
 import com.github.franciscozuccala.inhibitor.tasks.ConfigureNexusTask
 import com.github.franciscozuccala.inhibitor.tasks.SaveNexusTask
 import com.github.franciscozuccala.inhibitor.tasks.StartNexusTask
@@ -13,7 +13,7 @@ class InhibitorPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.task('configureNexus', type: ConfigureNexusTask)
-        project.task('configureDownloadOnlyAndroid', type: ConfigureDownloadOnlyAndroidTask)
+        project.task('configureLocalMavenRepository', type: ConfigureLocalMavenRepositoryTask)
         project.task('saveNexus', type: SaveNexusTask)
         project.task('startNexus', type: StartNexusTask).dependsOn('configureNexus')
         project.task('stopNexus', type: StopNexusTask).dependsOn('configureNexus')
@@ -22,8 +22,8 @@ class InhibitorPlugin implements Plugin<Project> {
             if (project.ext.has('ENABLE_START_NEXUS') ? project.ext.ENABLE_START_NEXUS : false) {
                 project.tasks.configureNexus.execute()
                 project.tasks.startNexus.execute()
-            }else if (project.ext.has('CONFIGURE_DOWNLOAD_ONLY_ANDROID') ? project.ext.CONFIGURE_DOWNLOAD_ONLY_ANDROID : false){
-                project.tasks.configureDownloadOnlyAndroid.execute()
+            }else if (project.ext.has('CONFIGURE_LOCAL_MAVEN_REPOSITORY') ? project.ext.CONFIGURE_LOCAL_MAVEN_REPOSITORY : false){
+                project.tasks.configureLocalMavenRepository.execute()
             }
         }
     }
