@@ -50,11 +50,33 @@ abstract class AbstractGithubTask extends DefaultTask {
             }else{
                 inhibitorGitFolder.mkdirs()
             }
-        }else{
-            if (isGitRepository(inhibitorGitFolder) && !(gitCurrentBranch(inhibitorGitFolder) == inhibitorBranch)){
+            return new File(workspaceFolder, "inhibitor")
+        }
+        if (isGitRepository(inhibitorGitFolder)){
+            if (!(gitCurrentBranch(inhibitorGitFolder) == inhibitorBranch)) {
                 gitCheckout(inhibitorGitFolder, inhibitorBranch)
                 gitPullFromBranch(inhibitorGitFolder, INHIBITOR_REPOSITORY, inhibitorBranch)
             }
+        }else if (haveToCloneInhibitor()){
+            project.exec {
+                it.workingDir = workspaceFolder.absolutePath
+                it.commandLine('mv', 'inhibitor', 'tmp')
+            }
+            gitClone(workspaceFolder, INHIBITOR_REPOSITORY)
+            gitCheckout(inhibitorGitFolder, inhibitorBranch)
+            def areFilesMoved = project.exec {
+                it.workingDir = workspaceFolder.absolutePath
+                it.commandLine('mv', '-v', 'tmp/sonatype-work/*', 'inhibitor/sonatype-work')
+
+                it.ignoreExitValue = true
+            }
+            if ( 0 == areFilesMoved.properties['exitValue']){
+                project.exec {
+                    it.workingDir = workspaceFolder.absolutePath
+                    it.commandLine('rm', '-rf', 'tmp/')
+                }
+            }
+
         }
 
         return new File(workspaceFolder, "inhibitor")
