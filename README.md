@@ -44,7 +44,7 @@ the password can be replaced by a Github token:
 
 ```gradle
 
-configureDownloadOnlyAndroid{
+configureLocalMavenRepository{
     nexusRepository = "https://github.com/user/repository-as-nexus.git"
     [authenticated "usser", "passwordOrKey"] // In case of beeing a private repository or need write access
     [nexusBranch = "master"] //By Default is master
@@ -69,7 +69,7 @@ in module's build.gradle:
 ext.ENABLE_START_NEXUS = true
 ```
 
-To configure nexus to download only for Android:
+To configure nexus to be used as a local maven repository
 ```gradle
-ext.CONFIGURE_DOWNLOAD_ONLY_ANDROID = true
+ext.CONFIGURE_LOCAL_MAVEN_REPOSITORY = true
 ```
