@@ -17,7 +17,7 @@ class InhibitorPluginTest {
         Project project = ProjectBuilder.builder().build()
         project.pluginManager.apply 'inhibitor'
 
-        assertTrue(project.tasks.configureLocalMavenNexus instanceof ConfigureLocalMavenRepositoryTask)
+        assertTrue(project.tasks.configureLocalMavenRepository instanceof ConfigureLocalMavenRepositoryTask)
         assertTrue(project.tasks.configureNexus instanceof ConfigureNexusTask)
         assertTrue(project.tasks.saveNexus instanceof SaveNexusTask)
         assertTrue(project.tasks.startNexus instanceof StartNexusTask)
