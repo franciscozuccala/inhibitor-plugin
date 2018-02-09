@@ -10,6 +10,11 @@ class SaveNexusTask extends AbstractGithubTask {
     String nexusBranch = "master"
 
     @Override
+    protected boolean haveToCloneInhibitor() {
+        return false
+    }
+
+    @Override
     void exe(File inhibitorFolder) {
         println("Executing saveNexus task on $nexusRepository")
         File sonatypeWorkFolder = new File(inhibitorFolder, 'sonatype-work')
