@@ -73,3 +73,8 @@ To configure nexus to be used as a local maven repository
 ```gradle
 ext.CONFIGURE_LOCAL_MAVEN_REPOSITORY = true
 ```
+
+To make any of this last two configurations be a environment variable just make the following:
+```gradle
+ext.CONFIGURE_LOCAL_MAVEN_REPOSITORY = project.hasProperty('myLocalMavenProperty') ? project.ext.get('myLocalMavenProperty') : System.getenv('myLocalMavenProperty')
+```
