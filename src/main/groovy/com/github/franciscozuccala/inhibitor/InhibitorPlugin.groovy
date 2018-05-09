@@ -19,12 +19,24 @@ class InhibitorPlugin implements Plugin<Project> {
         project.task('stopNexus', type: StopNexusTask).dependsOn('configureNexus')
 
         project.afterEvaluate {
-            if (project.ext.has('ENABLE_START_NEXUS') ? project.ext.ENABLE_START_NEXUS : false) {
+            if (getProperty(project, 'ENABLE_START_NEXUS', false)) {
                 project.tasks.configureNexus.execute()
                 project.tasks.startNexus.execute()
-            }else if (project.ext.has('CONFIGURE_LOCAL_MAVEN_REPOSITORY') ? project.ext.CONFIGURE_LOCAL_MAVEN_REPOSITORY : false){
+            }else if (getProperty(project, 'CONFIGURE_LOCAL_MAVEN_REPOSITORY', false)){
                 project.tasks.configureLocalMavenRepository.execute()
             }
         }
+    }
+
+    private static Boolean getProperty(Project project, String propertyName, Boolean defaultValue){
+        try {
+            if (project.hasProperty(propertyName)){
+                return project.ext.get(propertyName)
+            }
+            return (System.getenv(propertyName) != null) ? Boolean.valueOf(System.getenv(propertyName)) : defaultValue
+        }catch (ClassCastException e){
+            return defaultValue
+        }
+
     }
 }

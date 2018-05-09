@@ -46,19 +46,19 @@ the password can be replaced by a Github token:
 
 configureLocalMavenRepository{
     nexusRepository = "https://github.com/user/repository-as-nexus.git"
-    [authenticated "usser", "passwordOrKey"] // In case of beeing a private repository or need write access
+    [authenticated "user", "passwordOrKey"] // In case of beeing a private repository or need write access
     [nexusBranch = "master"] //By Default is master
 }
 
 configureNexus{
     nexusRepository = "https://github.com/user/repository-as-nexus.git"
-    [authenticated "usser", "passwordOrKey"] // In case of beeing a private repository or need write access
+    [authenticated "user", "passwordOrKey"] // In case of beeing a private repository or need write access
     [nexusBranch = "master"] //By Default is master
 }
 
 saveNexus{
     nexusRepository = "https://github.com/user/repository-as-nexus.git"
-    [authenticated "usser", "passwordOrKey"] // In case of beeing a private repository or need write access
+    [authenticated "user", "passwordOrKey"] // In case of beeing a private repository or need write access
     [nexusBranch = "master"] //By Default is master
 }
 
@@ -74,7 +74,4 @@ To configure nexus to be used as a local maven repository
 ext.CONFIGURE_LOCAL_MAVEN_REPOSITORY = true
 ```
 
-To make any of this last two configurations be a environment variable just make the following:
-```gradle
-ext.CONFIGURE_LOCAL_MAVEN_REPOSITORY = project.hasProperty('myLocalMavenProperty') ? project.ext.get('myLocalMavenProperty') : System.getenv('myLocalMavenProperty')
-```
+any of this two properties can be configured as an environment variable
