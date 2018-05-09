@@ -6,7 +6,7 @@ Inhibitor-plugin is a gradle plugin, that allows your library or application to 
 as a Nexus and upload and use dependencies remotely
 
 ## How to use it
-Add the repository and Jitpack classpath to rootProject's buildscript
+Add the repository and Jitpack classpath to ROOTPROJECT's buildscript
 ```gradle
 buildScript{
     ...
@@ -20,14 +20,12 @@ buildScript{
         classpath 'com.github.franciscozuccala:inhibitor-plugin:X.Y.Z'
     }
 }
-```
 
-Add the following lines to the module's build.gradle to apply the plugin
-```gradle
 apply plugin: 'inhibitor'
+
 ```
 
-Then add the local repository:
+Add the following lines to the module's build.gradle to add the local repository:
 ```gradle
 repositories {
     ...
@@ -39,7 +37,7 @@ repositories {
 ```
 
 ## Configure the tasks
-Add the following lines to module's build.gradle for each task to configure, 
+Add the following lines to ROOTPROJECT's build.gradle for each task to configure, 
 the password can be replaced by a Github token:
 
 ```gradle
@@ -64,7 +62,7 @@ saveNexus{
 
 ```
 To enable startNexus task to run in every build, add the following line
-in module's build.gradle:
+in ROOTPROJECT's build.gradle:
 ```gradle
 ext.ENABLE_START_NEXUS = true
 ```
